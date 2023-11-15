@@ -1,9 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using QuestionnaireLineBot.Models;
+using QuestionnaireLineBot.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<QuestionnaireDbContext>((DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Name=ConnectionString:DefaultConnection"));
+
+builder.Services.AddScoped<IQuestionsService, QuestionsService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<LineBotService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

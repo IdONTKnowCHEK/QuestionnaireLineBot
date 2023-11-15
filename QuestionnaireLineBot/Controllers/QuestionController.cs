@@ -23,37 +23,21 @@ namespace QuestionnaireLineBot.Controllers
             _LineBotService = LineBotService;
         }
 
-        // GET: api/<QuestionnaireController>
+        // GET: api/<QuestionnaireController>/Questions
         [HttpGet]
-        public async Task<ActionResult<List<Questions>>> Get()
+        [Route("Questions")]
+        public async Task<ActionResult<List<QuestionBank>>> GetQuestions()
         {
-            var question = await _QuestionsService.GetAsync();
+            var question = await _QuestionsService.GetQuestionBanks();
             return question;
         }
-
-        // GET api/<QuestionnaireController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<QuestionnaireController>/Options
+        [HttpGet]
+        [Route("Options")]
+        public async Task<ActionResult<List<Option>>> GetOptions()
         {
-            return "value";
-        }
-
-        // POST api/<QuestionnaireController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<QuestionnaireController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<QuestionnaireController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var question = await _QuestionsService.GetQuestionOptions();
+            return question;
         }
     }
 }

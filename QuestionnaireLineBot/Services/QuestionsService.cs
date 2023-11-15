@@ -10,7 +10,8 @@ namespace QuestionnaireLineBot.Services
 {
     public interface IQuestionsService
     {
-        Task<ActionResult<List<Questions>>> GetAsync();
+        Task<ActionResult<List<QuestionBank>>> GetQuestionBanks();
+        Task<ActionResult<List<Option>>> GetQuestionOptions();
     }
 
     public class QuestionsService : IQuestionsService
@@ -22,38 +23,6 @@ namespace QuestionnaireLineBot.Services
         {
             _questionnaireDbContext = questionnaireDbContext;
         }
-        public async Task<ActionResult<List<Questions>>> GetAsync()
-        {
-            return await GetQuestions();
-        }
-
-        public async Task<ActionResult<List<Questions>>> GetQuestions()
-        {
-            var questionBanksResult = await GetQuestionBanks();
-            var optionsResult = await GetQuestionOptions();
-
-            var questionBanks = questionBanksResult.Value as List<QuestionBank>;
-            var options = optionsResult.Value as List<Option>;
-
-            if (questionBanks != null && options != null)
-            {
-                var result = from q in questionBanks
-                             join o in options on q.QuestionId equals o.QuestionId into joined
-                             select new Questions
-                             {
-                                 QuestionId = q.QuestionId,
-                                 Question = q.Question,
-                                 Options = joined.Select(x => x.Item).ToList(),
-                                 Answer = q.Answer
-                             };
-
-                return result.ToList();
-            }
-
-            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-        }
-
-
 
         public async Task<ActionResult<List<QuestionBank>>> GetQuestionBanks()
         {
@@ -77,5 +46,7 @@ namespace QuestionnaireLineBot.Services
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+
+
     }
 }

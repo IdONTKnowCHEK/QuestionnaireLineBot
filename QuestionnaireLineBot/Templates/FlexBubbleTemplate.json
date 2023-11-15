@@ -1,0 +1,211 @@
+﻿{
+  "Messages": [
+    {
+      "Type": "flex",
+      "AltText": "Question",
+      "Contents": {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "第一題：",
+              "weight": "bold",
+              "size": "xl"
+            },
+            {
+              "type": "separator",
+              "margin": "md"
+            },
+            {
+              "type": "text",
+              "text": "陽光是最佳的防腐劑，陽光法案包括「公職人員財產申報法」及「公職人員利益衝突迴避法」，宜蘭縣政府政風處將陽光法案列為重要推動工作項目，請問近3年（108~110年）展現之宣導成效為何？",
+              "size": "md",
+              "wrap": true,
+              "style": "italic",
+              "margin": "md"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Type": "flex",
+      "AltText": "Options",
+      "Contents": {
+        "type": "carousel",
+        "contents": [
+          {
+            "type": "bubble",
+            "size": "micro",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "財產申報義務人網路申報比例連續3年達100％，完成「全面普及網路申報」之目標。",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "color": "#000000",
+                      "action": {
+                        "type": "postback",
+                        "label": "選項1",
+                        "data": "replyOption == 1",
+                        "displayText": "作答：財產申報義務人網路申報比例連續3年達100％，完成「全面普及網路申報」之目標。"
+                      },
+                      "height": "sm"
+                    }
+                  ],
+                  "backgroundColor": "#8cb4fa",
+                  "cornerRadius": "8px"
+                }
+              ],
+              "flex": 0
+            }
+          },
+          {
+            "type": "bubble",
+            "size": "micro",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "財產申報義務人財產資料授權查調比例連續3年平均99.13％，完成「積極輔導財產授權」之目標。",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "color": "#000000",
+                      "height": "sm",
+                      "style": "link",
+                      "action": {
+                        "type": "postback",
+                        "label": "選項2",
+                        "data": "replyOption == 2",
+                        "displayText": "作答：財產申報義務人財產資料授權查調比例連續3年平均99.13％，完成「積極輔導財產授權」之目標。"
+                      }
+                    }
+                  ],
+                  "backgroundColor": "#8cb4fa",
+                  "cornerRadius": "8px"
+                }
+              ],
+              "flex": 0
+            }
+          },
+          {
+            "type": "bubble",
+            "size": "micro",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "利益衝突迴避之自行迴避，彙整本府暨所屬各機關團體情形連續3年成長，足現「宣導作為大處著眼小處著手」之目標。",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "color": "#000000",
+                      "height": "sm",
+                      "style": "link",
+                      "action": {
+                        "type": "postback",
+                        "label": "選項3",
+                        "data": "replyOption == 3",
+                        "displayText": "作答：利益衝突迴避之自行迴避，彙整本府暨所屬各機關團體情形連續3年成長，足現「宣導作為大處著眼小處著手」之目標。"
+                      }
+                    }
+                  ],
+                  "backgroundColor": "#8cb4fa",
+                  "cornerRadius": "8px"
+                }
+              ],
+              "flex": 0
+            }
+          },
+          {
+            "type": "bubble",
+            "size": "micro",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "以上皆是",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "color": "#000000",
+                      "height": "sm",
+                      "style": "link",
+                      "action": {
+                        "type": "postback",
+                        "label": "選項4",
+                        "data": "replyOption == 4",
+                        "displayText": "作答：以上皆是"
+                      }
+                    }
+                  ],
+                  "backgroundColor": "#8cb4fa",
+                  "cornerRadius": "8px"
+                }
+              ],
+              "flex": 0
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

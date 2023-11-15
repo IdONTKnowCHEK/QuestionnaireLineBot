@@ -18,43 +18,11 @@ namespace QuestionnaireLineBot.Controllers
         }
 
         [HttpPost("Webhook")]
-        [LineVerifySignature]
+        //[LineVerifySignature]
         public IActionResult Webhook(WebhookRequestBodyDto body)
         {
             _lineBotService.ReceiveWebhook(body);
             return Ok();
-        }
-
-        // GET: api/<LineBotController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<LineBotController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<LineBotController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<LineBotController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<LineBotController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
