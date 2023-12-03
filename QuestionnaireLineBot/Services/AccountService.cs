@@ -10,16 +10,16 @@ namespace QuestionnaireLineBot.Services
 
     public class AccountService: IAccountService
     {
-        private readonly QuestionnaireDbContext _questionnaireDbContext;
-        public AccountService(QuestionnaireDbContext questionnaireDbContext)
+        private readonly LineBotQuestionnaireDbContext _lineBotQuestionnaireDbContext;
+        public AccountService(LineBotQuestionnaireDbContext lineBotQuestionnaireDbContext)
         {
-            _questionnaireDbContext = questionnaireDbContext;
+            _lineBotQuestionnaireDbContext = lineBotQuestionnaireDbContext;
         }
 
         public async void PostAccount(UserProfileDto profile)
         {
-            _questionnaireDbContext.AccountPeople.Add(new AccountPerson() { Account = profile.userId, Name = profile.userId });
-            await _questionnaireDbContext.SaveChangesAsync();
+            _lineBotQuestionnaireDbContext.Accounts.Add(new Account() { AccountId = profile.userId, Name = profile.userId });
+            await _lineBotQuestionnaireDbContext.SaveChangesAsync();
         }
     }
 }

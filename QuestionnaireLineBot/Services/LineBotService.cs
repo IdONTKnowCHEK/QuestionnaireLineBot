@@ -58,6 +58,43 @@ namespace QuestionnaireLineBot.Services
                             var messageRequest = _jsonProvider.Deserialize<ReplyMessageRequestDto<FlexMessageDto<FlexBubbleContainerDto>>>(flexBubbleTemplate);
                             messageRequest.ReplyToken = eventObject.ReplyToken;
 
+
+                            List<Question> questionBanks = new List<Question>() {
+                                new Question()
+                                {
+                                    QuestionId = 1,
+                                    ActivityId = "3b54fabe-55f5-4022-82bf-39e7fce65363",
+                                    QuestionContent = "陽光是最佳的防腐劑，陽光法案包括「公職人員財產申報法」及「公職人員利益衝突迴避法」，宜蘭縣政府政風處將陽光法案列為重要推動工作項目，請問近3年（108~110年）展現之宣導成效為何？",
+                                    Answer = 4
+                                }
+                            };
+                            List<Option> options = new List<Option>() {
+                                new Option()
+                                {
+                                    QuestionId = 1,
+                                    OptionOrder = 1,
+                                    OptionContent = "財產申報義務人網路申報比例連續3年達100％，完成「全面普及網路申報」之目標。"
+                                },
+                                new Option()
+                                {
+                                    QuestionId = 1,
+                                    OptionOrder = 2,
+                                    OptionContent = "財產申報義務人財產資料授權查調比例連續3年平均99.13％，完成「積極輔導財產授權」之目標。"
+                                },
+                                new Option()
+                                {
+                                    QuestionId = 1,
+                                    OptionOrder = 3,
+                                    OptionContent = "利益衝突迴避之自行迴避，彙整本府暨所屬各機關團體情形連續3年成長，足現「宣導作為大處著眼小處著手」之目標。"
+                                },
+                                new Option()
+                                {
+                                    QuestionId = 1,
+                                    OptionOrder = 4,
+                                    OptionContent = "以上皆是"
+                                }
+                            };
+
                             ReplyMessage(messageRequest);
                         }
                         else
@@ -76,6 +113,10 @@ namespace QuestionnaireLineBot.Services
                         }
 
                         break;
+                    case WebhookEventTypeEnum.Postback:
+                        string postbackData = eventObject.Postback.Data;
+                        Console.WriteLine(postbackData);
+                        break;
 
                     case WebhookEventTypeEnum.Follow:
                         UserProfileDto profile = await GetUserProfile(eventObject.Source.UserId);
@@ -86,6 +127,7 @@ namespace QuestionnaireLineBot.Services
 
             }
         }
+
 
         public async void ReplyMessage<T>(ReplyMessageRequestDto<T> request)
         {

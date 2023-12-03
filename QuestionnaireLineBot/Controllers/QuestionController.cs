@@ -26,18 +26,26 @@ namespace QuestionnaireLineBot.Controllers
         // GET: api/<QuestionnaireController>/Questions
         [HttpGet]
         [Route("Questions")]
-        public async Task<ActionResult<List<QuestionBank>>> GetQuestions()
+        public async Task<ActionResult<List<Question>>> GetQuestions()
         {
-            var question = await _QuestionsService.GetQuestionBanks();
-            return question;
+            var questions = await _QuestionsService.GetQuestions();
+            return questions;
         }
         // GET: api/<QuestionnaireController>/Options
         [HttpGet]
         [Route("Options")]
         public async Task<ActionResult<List<Option>>> GetOptions()
         {
-            var question = await _QuestionsService.GetQuestionOptions();
-            return question;
+            var options = await _QuestionsService.GetOptions();
+            return options;
+        }
+        // GET: api/<QuestionnaireController>/Activities
+        [HttpGet]
+        [Route("Activities")]
+        public async Task<ActionResult<List<Activity>>> GetActivities()
+        {
+            var activities = await _QuestionsService.GetActivities();
+            return activities;
         }
     }
 }

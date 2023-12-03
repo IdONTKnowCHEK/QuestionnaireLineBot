@@ -10,36 +10,48 @@ namespace QuestionnaireLineBot.Services
 {
     public interface IQuestionsService
     {
-        Task<ActionResult<List<QuestionBank>>> GetQuestionBanks();
-        Task<ActionResult<List<Option>>> GetQuestionOptions();
+        Task<ActionResult<List<Question>>> GetQuestions();
+        Task<ActionResult<List<Option>>> GetOptions();
+        Task<ActionResult<List<Activity>>> GetActivities();
     }
 
     public class QuestionsService : IQuestionsService
     {
-        private readonly QuestionnaireDbContext _questionnaireDbContext;
+        private readonly LineBotQuestionnaireDbContext _lineBotQuestionnaireDbContext;
 
 
-        public QuestionsService(QuestionnaireDbContext questionnaireDbContext)
+        public QuestionsService(LineBotQuestionnaireDbContext lineBotQuestionnaireDbContext)
         {
-            _questionnaireDbContext = questionnaireDbContext;
+            _lineBotQuestionnaireDbContext = lineBotQuestionnaireDbContext;
         }
 
-        public async Task<ActionResult<List<QuestionBank>>> GetQuestionBanks()
+        public async Task<ActionResult<List<Question>>> GetQuestions()
         {
             try
             {
-                return await _questionnaireDbContext.QuestionBanks.ToListAsync();
+                return await _lineBotQuestionnaireDbContext.Questions.ToListAsync();
             }
             catch (Exception ex)
             {
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-        public async Task<ActionResult<List<Option>>> GetQuestionOptions()
+        public async Task<ActionResult<List<Option>>> GetOptions()
         {
             try
             {
-                return await _questionnaireDbContext.Options.ToListAsync();
+                return await _lineBotQuestionnaireDbContext.Options.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+        public async Task<ActionResult<List<Activity>>> GetActivities()
+        {
+            try
+            {
+                return await _lineBotQuestionnaireDbContext.Activities.ToListAsync();
             }
             catch (Exception ex)
             {

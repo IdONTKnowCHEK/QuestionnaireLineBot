@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<QuestionnaireDbContext>((DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Name=ConnectionString:DefaultConnection"));
+
+builder.Services.AddDbContext<LineBotQuestionnaireDbContext>(
+    option =>
+    {
+        option.UseSqlServer("Name=ConnectionString:DefaultConnection");
+    });
 
 builder.Services.AddScoped<IQuestionsService, QuestionsService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
