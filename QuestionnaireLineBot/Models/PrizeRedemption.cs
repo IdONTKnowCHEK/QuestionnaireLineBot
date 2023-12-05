@@ -16,6 +16,4 @@ public partial class PrizeRedemption
     public string? RedemptionName { get; set; }
 
     public DateTime? RedemptionDate { get; set; }
-
-    public virtual Prize? Prize { get; set; }
 }

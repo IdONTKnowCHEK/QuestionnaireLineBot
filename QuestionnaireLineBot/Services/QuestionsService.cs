@@ -29,7 +29,7 @@ namespace QuestionnaireLineBot.Services
         {
             try
             {
-                return await _lineBotQuestionnaireDbContext.Questions.ToListAsync();
+                return await _lineBotQuestionnaireDbContext.Questions.Include(q => q.Options).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace QuestionnaireLineBot.Services
         {
             try
             {
-                return await _lineBotQuestionnaireDbContext.Activities.ToListAsync();
+                return await _lineBotQuestionnaireDbContext.Activities.Include(a => a.Questions).ToListAsync();
             }
             catch (Exception ex)
             {

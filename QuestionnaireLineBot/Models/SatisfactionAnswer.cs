@@ -12,6 +12,4 @@ public partial class SatisfactionAnswer
     public int? SatisfactionQuestionId { get; set; }
 
     public int? AnswerContent { get; set; }
-
-    public virtual SatisfactionQuestion? SatisfactionQuestion { get; set; }
 }

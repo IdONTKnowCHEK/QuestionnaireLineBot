@@ -7,44 +7,57 @@ using QuestionnaireLineBot.Providers;
 using System.Net.Http.Headers;
 using System.Text;
 using QuestionnaireLineBot.Dtos.Profile;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace QuestionnaireLineBot.Services
 {
     public class LineBotService
     {
         private readonly IConfiguration _config;
-        //private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
+        private readonly IQuestionsService _questionsService;
+        private readonly LineBotQuestionnaireDbContext _lineBotQuestionnaireDbContext;
         private readonly string replyMessageUri = "https://api.line.me/v2/bot/message/reply";
         private readonly string broadcastMessageUri = "https://api.line.me/v2/bot/message/broadcast";
-        private static HttpClient client = new HttpClient();
+        private readonly IHttpClientFactory _httpClientFactory = null!;
         private readonly JsonProvider _jsonProvider = new JsonProvider();
 
-        public LineBotService(IConfiguration config)
+        public LineBotService(IConfiguration config, IAccountService accountService, LineBotQuestionnaireDbContext lineBotQuestionnaireDbContext, IQuestionsService questionsService,
+            IHttpClientFactory httpClientFactory)
         {
             _config = config;
-            // _accountService = accountService;
+            _accountService = accountService;
+            _lineBotQuestionnaireDbContext = lineBotQuestionnaireDbContext;
+            _questionsService = questionsService;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<UserProfileDto> GetUserProfile(string userId)
         {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
-
-            var requestMessage = new HttpRequestMessage
+            using HttpClient client = _httpClientFactory.CreateClient();
+            try
             {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri($"https://api.line.me/v2/bot/profile/{userId}"),
-            };
-            var response = await client.SendAsync(requestMessage);
-            var content = await response.Content.ReadAsStringAsync();
-            var profile = _jsonProvider.Deserialize<UserProfileDto>(content);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
 
-            return profile;
-
+                var requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://api.line.me/v2/bot/profile/{userId}"),
+                };
+                var response = await client.SendAsync(requestMessage);
+                var content = await response.Content.ReadAsStringAsync();
+                var profile = _jsonProvider.Deserialize<UserProfileDto>(content);
+                return profile;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                return new UserProfileDto();
+            }
         }
 
-        public async void ReceiveWebhook(WebhookRequestBodyDto requestBody)
+        public async Task ReceiveWebhook(WebhookRequestBodyDto requestBody)
         {
             foreach (var eventObject in requestBody.Events)
             {
@@ -96,6 +109,7 @@ namespace QuestionnaireLineBot.Services
                             };
 
                             ReplyMessage(messageRequest);
+
                         }
                         else
                         {
@@ -109,7 +123,6 @@ namespace QuestionnaireLineBot.Services
                                 Messages = messages
                             };
                             ReplyMessage(messageRequest);
-
                         }
 
                         break;
@@ -119,9 +132,8 @@ namespace QuestionnaireLineBot.Services
                         break;
 
                     case WebhookEventTypeEnum.Follow:
-                        UserProfileDto profile = await GetUserProfile(eventObject.Source.UserId);
-                        //_accountService.PostAccount(profile);
-                        Console.WriteLine(profile.displayName);
+                        var profile = await GetUserProfile(eventObject.Source.UserId);
+                        await _accountService.PostAccount(profile);
                         break;
                 }
 
@@ -131,18 +143,26 @@ namespace QuestionnaireLineBot.Services
 
         public async void ReplyMessage<T>(ReplyMessageRequestDto<T> request)
         {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
-            var json = _jsonProvider.Serialize(request);
-            var requestMessage = new HttpRequestMessage
+            using HttpClient client = _httpClientFactory.CreateClient();
+            try
             {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(replyMessageUri),
-                Content = new StringContent(json, Encoding.UTF8, "application/json")
-            };
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
+                var json = _jsonProvider.Serialize(request);
+                var requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(replyMessageUri),
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
+                };
 
-            var response = await client.SendAsync(requestMessage);
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
+                var response = await client.SendAsync(requestMessage);
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
         }
 
         // 負責處理收到的廣播訊息類行為合併正確反序列化
@@ -159,21 +179,30 @@ namespace QuestionnaireLineBot.Services
 
         }
 
-        // 負責推播訊息
+        // 負責廣播訊息
         public async void BroadcastMessage<T>(BroadcastMessageRequestDto<T> request)
         {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
-            var json = _jsonProvider.Serialize(request);
-            var requestMessage = new HttpRequestMessage
+            using HttpClient client = _httpClientFactory.CreateClient();
+            try
             {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(broadcastMessageUri),
-                Content = new StringContent(json, Encoding.UTF8, "application/json")
-            };
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["LineBot:AccessToken"]);
+                var json = _jsonProvider.Serialize(request);
+                var requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(broadcastMessageUri),
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
+                };
 
-            var response = await client.SendAsync(requestMessage);
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
+                var response = await client.SendAsync(requestMessage);
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+
         }
 
     }

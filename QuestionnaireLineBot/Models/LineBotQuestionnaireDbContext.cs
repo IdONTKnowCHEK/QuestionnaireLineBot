@@ -101,10 +101,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("AccountID");
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-
-            entity.HasOne(d => d.Question).WithMany(p => p.Answers)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK__Answer__Question__02084FDA");
         });
 
         modelBuilder.Entity<Option>(entity =>
@@ -118,10 +114,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-
-            entity.HasOne(d => d.Question).WithMany(p => p.Options)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK__Options__Questio__75A278F5");
         });
 
         modelBuilder.Entity<Participation>(entity =>
@@ -142,14 +134,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ActivityID");
             entity.Property(e => e.JoinDate).HasColumnType("date");
-
-            entity.HasOne(d => d.Account).WithMany(p => p.Participations)
-                .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Participa__Accou__2CF2ADDF");
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.Participations)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__Participa__Activ__2DE6D218");
         });
 
         modelBuilder.Entity<Prize>(entity =>
@@ -181,10 +165,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
             entity.Property(e => e.PrizeName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.Prizes)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__Prize__ActivityI__18EBB532");
         });
 
         modelBuilder.Entity<PrizeRedemption>(entity =>
@@ -209,10 +189,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
             entity.Property(e => e.RedemptionName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Prize).WithMany(p => p.PrizeRedemptions)
-                .HasForeignKey(d => d.PrizeId)
-                .HasConstraintName("FK__PrizeRede__Prize__1BC821DD");
         });
 
         modelBuilder.Entity<Question>(entity =>
@@ -231,10 +207,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
             entity.Property(e => e.QuestionContent)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.Questions)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__Question__Answer__72C60C4A");
         });
 
         modelBuilder.Entity<SatisfactionAnswer>(entity =>
@@ -251,10 +223,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("AccountID");
             entity.Property(e => e.SatisfactionQuestionId).HasColumnName("SatisfactionQuestionID");
-
-            entity.HasOne(d => d.SatisfactionQuestion).WithMany(p => p.SatisfactionAnswers)
-                .HasForeignKey(d => d.SatisfactionQuestionId)
-                .HasConstraintName("FK__Satisfact__Satis__0C85DE4D");
         });
 
         modelBuilder.Entity<SatisfactionQuestion>(entity =>
@@ -273,10 +241,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
             entity.Property(e => e.SatisfactionQuestionContent)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.SatisfactionQuestions)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__Satisfact__Activ__07C12930");
         });
 
         modelBuilder.Entity<SatisfactionResponse>(entity =>
@@ -297,10 +261,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ActivityID");
             entity.Property(e => e.SubmissionTime).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.SatisfactionResponses)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__Satisfact__Activ__30C33EC3");
         });
 
         modelBuilder.Entity<SurveyResponse>(entity =>
@@ -321,10 +281,6 @@ public partial class LineBotQuestionnaireDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ActivityID");
             entity.Property(e => e.SubmissionTime).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Activity).WithMany(p => p.SurveyResponses)
-                .HasForeignKey(d => d.ActivityId)
-                .HasConstraintName("FK__SurveyRes__Activ__339FAB6E");
         });
 
         OnModelCreatingPartial(modelBuilder);

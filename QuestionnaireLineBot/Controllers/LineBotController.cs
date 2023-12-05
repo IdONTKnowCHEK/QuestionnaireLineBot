@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using QuestionnaireLineBot.Dtos.Profile;
 using QuestionnaireLineBot.Dtos.Webhook;
+using QuestionnaireLineBot.Enum;
 using QuestionnaireLineBot.Filter;
 using QuestionnaireLineBot.Services;
 
@@ -13,15 +15,20 @@ namespace QuestionnaireLineBot.Controllers
     {
 
         private readonly LineBotService _lineBotService;
-        public LineBotController(LineBotService lineBotService) { 
+        private readonly IAccountService _accountService;
+
+        public LineBotController(LineBotService lineBotService, IAccountService accountService)
+        {
             _lineBotService = lineBotService;
+            _accountService = accountService;
         }
 
         [HttpPost("Webhook")]
         //[LineVerifySignature]
-        public IActionResult Webhook(WebhookRequestBodyDto body)
+        public async Task<IActionResult> WebhookAsync(WebhookRequestBodyDto body)
         {
-            _lineBotService.ReceiveWebhook(body);
+            await _lineBotService.ReceiveWebhook(body);
+            
             return Ok();
         }
     }

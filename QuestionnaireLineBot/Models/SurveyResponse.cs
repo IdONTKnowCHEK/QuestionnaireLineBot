@@ -14,6 +14,4 @@ public partial class SurveyResponse
     public int? Score { get; set; }
 
     public DateTime? SubmissionTime { get; set; }
-
-    public virtual Activity? Activity { get; set; }
 }

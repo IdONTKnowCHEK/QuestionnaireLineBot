@@ -12,10 +12,4 @@ public partial class Question
     public string? QuestionContent { get; set; }
 
     public int? Answer { get; set; }
-
-    public virtual Activity? Activity { get; set; }
-
-    public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
-
-    public virtual ICollection<Option> Options { get; set; } = new List<Option>();
 }

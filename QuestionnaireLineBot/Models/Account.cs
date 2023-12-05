@@ -20,6 +20,4 @@ public partial class Account
     public int? SatisfactionAnswerCount { get; set; }
 
     public int? PrizeRedemptionCount { get; set; }
-
-    public virtual ICollection<Participation> Participations { get; set; } = new List<Participation>();
 }

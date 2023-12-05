@@ -12,6 +12,4 @@ public partial class Option
     public int? OptionOrder { get; set; }
 
     public string? OptionContent { get; set; }
-
-    public virtual Question? Question { get; set; }
 }

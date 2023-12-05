@@ -12,8 +12,4 @@ public partial class Participation
     public string? ActivityId { get; set; }
 
     public DateTime? JoinDate { get; set; }
-
-    public virtual Account? Account { get; set; }
-
-    public virtual Activity? Activity { get; set; }
 }

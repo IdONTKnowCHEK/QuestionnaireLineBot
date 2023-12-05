@@ -24,8 +24,4 @@ public partial class Prize
     public string? Key2 { get; set; }
 
     public string? Key3 { get; set; }
-
-    public virtual Activity? Activity { get; set; }
-
-    public virtual ICollection<PrizeRedemption> PrizeRedemptions { get; set; } = new List<PrizeRedemption>();
 }

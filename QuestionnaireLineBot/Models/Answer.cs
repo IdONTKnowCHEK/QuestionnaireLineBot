@@ -12,6 +12,4 @@ public partial class Answer
     public int? QuestionId { get; set; }
 
     public int? AnswerContent { get; set; }
-
-    public virtual Question? Question { get; set; }
 }

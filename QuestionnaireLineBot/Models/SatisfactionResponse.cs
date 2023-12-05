@@ -12,6 +12,4 @@ public partial class SatisfactionResponse
     public string? ActivityId { get; set; }
 
     public DateTime? SubmissionTime { get; set; }
-
-    public virtual Activity? Activity { get; set; }
 }
